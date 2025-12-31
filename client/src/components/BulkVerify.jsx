@@ -135,6 +135,7 @@ export default function BulkVerify() {
           placeholder='Paste the full Clarity Vote Record JSON here...'
           rows={10}
           className={inputClass}
+          data-wg-notranslate='true'
         />
       </div>
 

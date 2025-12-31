@@ -48,6 +48,7 @@ export default function SingleVerify() {
           placeholder='addr1... or stake1...'
           required
           className={inputClass}
+          data-wg-notranslate='true'
         />
       </div>
 
@@ -60,6 +61,7 @@ export default function SingleVerify() {
           required
           rows={3}
           className={inputClass}
+          data-wg-notranslate='true'
         />
       </div>
 
@@ -74,6 +76,7 @@ export default function SingleVerify() {
           required
           rows={2}
           className={inputClass}
+          data-wg-notranslate='true'
         />
       </div>
 
@@ -88,6 +91,7 @@ export default function SingleVerify() {
           required
           rows={3}
           className={inputClass}
+          data-wg-notranslate='true'
         />
       </div>
 
