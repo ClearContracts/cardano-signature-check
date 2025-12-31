@@ -28,6 +28,26 @@ app.post("/verify", (req, res) => {
       });
     }
 
+    // Handle case where message might be double-escaped JSON
+    // e.g., "{\"wallet\":\"stake_test1...\"}" with literal backslashes
+    let cleanMessage = message;
+
+    if (typeof message === "string") {
+      // Check if string contains literal backslash-quote sequences
+      if (message.includes('\\"')) {
+        // Replace escaped quotes with regular quotes
+        cleanMessage = message.replace(/\\"/g, '"');
+      }
+
+      // Try to parse as JSON to normalize formatting
+      try {
+        const parsed = JSON.parse(cleanMessage);
+        cleanMessage = JSON.stringify(parsed);
+      } catch {
+        // Not valid JSON after unescaping, use the unescaped version
+      }
+    }
+
     // Convert message to hex (required by checkSignature)
     const messageHex = Buffer.from(cleanMessage).toString("hex");
 
