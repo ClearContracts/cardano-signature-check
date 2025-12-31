@@ -1,12 +1,13 @@
 const express = require("express");
 const { checkSignature } = require("@meshsdk/core");
 const path = require("path");
+const blake = require("blakejs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 app.post("/verify", (req, res) => {
   try {
@@ -51,11 +52,28 @@ app.post("/verify", (req, res) => {
     // Convert message to hex (required by checkSignature)
     const messageHex = Buffer.from(cleanMessage).toString("hex");
 
-    const result = checkSignature(messageHex, signature, stakeAddress);
+    // First try direct message verification
+    let result = checkSignature(messageHex, signature, stakeAddress);
+    let signedHash = false;
+
+    // If direct verification fails, try with hashed message (blake2b-224)
+    if (!result) {
+      const hashedMessage = blake.blake2bHex(cleanMessage, undefined, 28);
+      const hashedMessageHex = Buffer.from(hashedMessage).toString("hex");
+      result = checkSignature(hashedMessageHex, signature, stakeAddress);
+      if (result) {
+        signedHash = true;
+      }
+    }
 
     res.json({
       valid: result,
-      message: result ? "Signature is valid!" : "Signature is invalid",
+      signedHash: signedHash,
+      message: result
+        ? signedHash
+          ? "Signature is valid (signed hash of message)"
+          : "Signature is valid!"
+        : "Signature is invalid",
     });
   } catch (error) {
     console.error("Verification error:", error.message);
