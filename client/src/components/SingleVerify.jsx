@@ -66,9 +66,7 @@ export default function SingleVerify() {
       </div>
 
       <div className='mb-5'>
-        <label className={labelClass}>
-          Key (COSE_Key hex from wallet.signData)
-        </label>
+        <label className={labelClass}>Key (from signature)</label>
         <textarea
           value={key}
           onChange={(e) => setKey(e.target.value)}
@@ -81,9 +79,7 @@ export default function SingleVerify() {
       </div>
 
       <div className='mb-5'>
-        <label className={labelClass}>
-          Signature (COSE_Sign1 hex from wallet.signData)
-        </label>
+        <label className={labelClass}>Signature (from signature)</label>
         <textarea
           value={signature}
           onChange={(e) => setSignature(e.target.value)}
