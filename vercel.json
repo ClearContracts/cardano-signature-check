@@ -1,7 +1,21 @@
 {
-  "buildCommand": "cd client && npm install && npm run build",
-  "outputDirectory": "client/dist",
-  "installCommand": "npm install",
-  "framework": "vite",
-  "rewrites": [{ "source": "/verify", "destination": "/api/verify" }]
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/verify", "dest": "/api/verify.js" },
+    { "src": "/(.*)", "dest": "/client/$1" }
+  ]
 }
