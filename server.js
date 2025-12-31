@@ -3,7 +3,7 @@ const { checkSignature } = require("@meshsdk/core");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -27,9 +27,6 @@ app.post("/verify", (req, res) => {
         error: "Both key and signature fields are required",
       });
     }
-
-    // Remove all backslashes from the message
-    const cleanMessage = message.split("\\").join("");
 
     // Convert message to hex (required by checkSignature)
     const messageHex = Buffer.from(cleanMessage).toString("hex");
