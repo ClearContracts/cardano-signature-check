@@ -1,15 +1,12 @@
-const express = require("express");
 const { checkSignature } = require("@meshsdk/core");
-const path = require("path");
 const blake = require("blakejs");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+module.exports = async function handler(req, res) {
+  // Only allow POST
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "client/dist")));
-
-app.post("/verify", (req, res) => {
   try {
     const { stakeAddress, message, signature } = req.body;
 
@@ -82,8 +79,4 @@ app.post("/verify", (req, res) => {
       error: `Verification failed: ${error.message}`,
     });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+};

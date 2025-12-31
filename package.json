@@ -2,16 +2,11 @@
   "name": "cardano-signature-check",
   "version": "1.0.0",
   "description": "Verify Cardano wallet signatures using MeshJS",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "node --watch server.js",
-    "client": "npm run dev --prefix client",
-    "dev": "npm run server & npm run client"
+    "dev": "npm run dev --prefix client"
   },
   "dependencies": {
     "@meshsdk/core": "^1.7.0",
-    "blakejs": "^1.2.1",
-    "express": "^4.18.2"
+    "blakejs": "^1.2.1"
   }
 }
