@@ -20,7 +20,7 @@ A web app to verify CIP-8 wallet signatures collected from Cardano using [MeshJS
 ### Backend
 
 - **Node.js** - Runtime
-- **Express** - Web server
+- **Vercel Serverless Functions** - API (production)
 - **@meshsdk/core** - Cardano signature verification
 - **blakejs** - Blake2b hashing for hash-signed messages
 
@@ -39,25 +39,29 @@ cd client && npm install
 Run both the server and client in development mode:
 
 ```bash
-# Terminal 1: Start the Express server
+# Terminal 1: Start the API server
 npm run server
 
 # Terminal 2: Start the Vite dev server
 cd client && npm run dev
 ```
 
-- Express API server runs on `http://localhost:3000`
-- Vite dev server runs on `http://localhost:5173` (proxies API requests to Express)
+- API server runs on `http://localhost:8080`
+- Vite dev server runs on `http://localhost:5173` (proxies API requests)
 
-## Production
+## Deployment
+
+This app is designed to deploy to **Vercel**:
 
 ```bash
-# Build the client
-cd client && npm run build
+# Install Vercel CLI
+npm i -g vercel
 
-# Start the server (serves built client from client/dist)
-npm start
+# Deploy
+vercel
 ```
+
+The `api/verify.js` serverless function handles signature verification in production.
 
 ## Input Fields (Single Signature)
 
