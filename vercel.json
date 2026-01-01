@@ -1,6 +1,6 @@
 {
-  "installCommand": "npm install && cd client && npm install",
-  "buildCommand": "cd client && npm run build",
+  "installCommand": "npm install && npm install --prefix client",
+  "buildCommand": "npm run build --prefix client",
   "outputDirectory": "client/dist",
   "framework": null,
   "rewrites": [{ "source": "/verify", "destination": "/api/verify" }]
