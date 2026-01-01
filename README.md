@@ -27,11 +27,7 @@ A web app to verify CIP-8 wallet signatures collected from Cardano using [MeshJS
 ## Installation
 
 ```bash
-# Install server dependencies
 npm install
-
-# Install client dependencies
-cd client && npm install
 ```
 
 ## Development
@@ -43,7 +39,7 @@ Run both the server and client in development mode:
 npm run server
 
 # Terminal 2: Start the Vite dev server
-cd client && npm run dev
+npm run dev
 ```
 
 - API server runs on `http://localhost:8080`
