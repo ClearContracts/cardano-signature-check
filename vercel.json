@@ -1,20 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/verify.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "client/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+  "functions": {
+    "api/verify.cjs": {
+      "runtime": "@vercel/node@3"
     }
-  ],
-  "routes": [
-    { "src": "/verify", "dest": "/api/verify.js" },
-    { "src": "/(.*)", "dest": "/client/$1" }
-  ]
+  },
+  "rewrites": [{ "source": "/verify", "destination": "/api/verify.cjs" }]
 }

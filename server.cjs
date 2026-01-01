@@ -1,5 +1,5 @@
 const http = require("http");
-const handler = require("./api/verify");
+const handler = require("./api/verify.cjs");
 
 const server = http.createServer(async (req, res) => {
   // Enable CORS
