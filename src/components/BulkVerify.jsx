@@ -10,7 +10,7 @@ export default function BulkVerify() {
 
   const parseVoteRecord = (json) => {
     const signatures = [];
-    const votes = json.Votes || {};
+    const votes = json.Votes || json.addresses || {};
 
     for (const [walletAddress, voteData] of Object.entries(votes)) {
       const submissions = voteData["Submissions Voted For"] || [];
@@ -35,7 +35,11 @@ export default function BulkVerify() {
               key: sigData.key,
               signature: sigData.signature,
               option: option,
-              snapshot: messageObj.snapshot || json["Snapshot Name"] || "",
+              snapshot:
+                messageObj.snapshot ||
+                json["Snapshot Name"] ||
+                json["Bounty Name"] ||
+                "",
             });
           }
         }
