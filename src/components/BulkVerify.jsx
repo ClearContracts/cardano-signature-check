@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DropZone from "./DropZone";
+import blake from "blakejs";
 
 export default function BulkVerify() {
   const [file, setFile] = useState(null);
@@ -7,6 +8,7 @@ export default function BulkVerify() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+  const [contentHash, setContentHash] = useState(null);
 
   const parseVoteRecord = (json) => {
     const signatures = [];
@@ -97,6 +99,9 @@ export default function BulkVerify() {
 
     const signatures = parseVoteRecord(voteRecord);
 
+    const hash = blake.blake2bHex(voteRecordJson, undefined, 32);
+    setContentHash(hash);
+
     if (signatures.length === 0) {
       setError("No signatures found in vote record");
       setLoading(false);
@@ -160,12 +165,22 @@ export default function BulkVerify() {
 
       {results && (
         <div className='mt-6'>
+          {contentHash && (
+            <div className='mb-4 p-3 bg-white/5 rounded-lg border border-white/10'>
+              <div className='text-xs text-gray-400 tracking-wide mb-1'>
+                Content Hash (Blake2b-256)
+              </div>
+              <div className='font-mono text-xs text-white break-all'>
+                {contentHash}
+              </div>
+            </div>
+          )}
           <div className='flex gap-4 mb-4'>
             <div className='flex-1 text-center p-4 bg-white/5 rounded-lg border border-white/10'>
               <div className='text-2xl font-bold text-white'>
                 {results.length}
               </div>
-              <div className='text-xs text-gray-400 uppercase tracking-wide mt-1'>
+              <div className='text-xs text-gray-400 tracking-wide mt-1'>
                 Total
               </div>
             </div>
@@ -173,7 +188,7 @@ export default function BulkVerify() {
               <div className='text-2xl font-bold text-green-500'>
                 {validCount}
               </div>
-              <div className='text-xs text-gray-400 uppercase tracking-wide mt-1'>
+              <div className='text-xs text-gray-400 tracking-wide mt-1'>
                 Valid
               </div>
             </div>
@@ -181,7 +196,7 @@ export default function BulkVerify() {
               <div className='text-2xl font-bold text-red-500'>
                 {invalidCount}
               </div>
-              <div className='text-xs text-gray-400 uppercase tracking-wide mt-1'>
+              <div className='text-xs text-gray-400 tracking-wide mt-1'>
                 Invalid
               </div>
             </div>
@@ -207,8 +222,8 @@ export default function BulkVerify() {
                   </span>
                   <span className='font-semibold text-white'>{r.option}</span>
                   {r.signedHash && (
-                    <span className='ml-auto text-[0.65rem] font-semibold uppercase px-2 py-0.5 bg-amber-400/20 text-amber-400 rounded'>
-                      signed hash
+                    <span className='ml-auto text-[0.65rem] font-semibold px-2 py-0.5 bg-amber-400/20 text-amber-400 rounded'>
+                      Signed Hash
                     </span>
                   )}
                 </div>
