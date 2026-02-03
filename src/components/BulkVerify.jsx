@@ -32,7 +32,8 @@ export default function BulkVerify() {
             }
 
             signatures.push({
-              stakeAddress: messageObj.wallet || walletAddress,
+              stakeAddress:
+                messageObj.wallet || messageObj.cardanoWallet || walletAddress,
               message: sigData.message,
               key: sigData.key,
               signature: sigData.signature,
